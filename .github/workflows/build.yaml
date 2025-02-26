@@ -1,0 +1,35 @@
+name: Build and upload image
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create output directory
+        run: mkdir -p output
+
+      - name: Run image-builder container
+        run: |
+          sudo podman run --privileged --rm \
+          -v "${{ github.workspace }}/output:/output" \
+          ghcr.io/ondrejbudai/image-builder-cli:fedora-minimal-riscv \
+          --distro fedora-41 \
+          --arch riscv64 \
+          build minimal-raw-zst
+
+      - name: Change ownership of output directory
+        run: sudo chown -R $(whoami):$(whoami) output
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: os-image
+          path: output/fedora-41-minimal-raw-zst-riscv64/zstd/disk.raw.zst
