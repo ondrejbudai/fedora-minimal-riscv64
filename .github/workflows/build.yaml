@@ -16,6 +16,9 @@ jobs:
       - name: Create output directory
         run: mkdir -p output
 
+      - name: Install qemu-user-static
+        run: sudo apt update && sudo apt install -y qemu-user-static
+
       - name: Run image-builder container
         run: |
           sudo podman run --privileged --rm \
