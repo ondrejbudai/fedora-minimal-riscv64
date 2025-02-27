@@ -2,6 +2,8 @@ name: Build and upload image
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'
   push:
     branches:
       - main
@@ -34,12 +36,27 @@ jobs:
       - name: Change ownership of output directory
         run: sudo chown -R $(whoami):$(whoami) output
 
-      - name: Upload Build Artifact
+      - name: Install extra packages for testing
+        run: sudo apt install -y qemu-system-riscv64 python3-pexpect qemu-efi-riscv64
+
+      - name: Run tests
+        run: |
+          unzstd output/fedora-41-minimal-raw-zst-riscv64/zstd/disk.raw
+          python3 test.py output/fedora-41-minimal-raw-zst-riscv64/disk.raw /usr/share/qemu-efi-riscv64/RISCV_VIRT_CODE.fd
+
+      - name: Archive the log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testlog
+          path: log
+
+      - name: Upload the disk image
         uses: actions/upload-artifact@v4
         id: upload-artifact
         with:
-          name: fedora-41-minimal.raw.zst
-          path: output/fedora-41-minimal-raw-zst-riscv64/zstd/disk.raw.zst
+          name: disk.raw
+          path: output/fedora-41-minimal-raw-zst-riscv64/zstd/disk.raw
 
       - name: Update README
         run: |
