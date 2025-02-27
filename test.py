@@ -11,14 +11,14 @@ firmware = sys.argv[2]
 f = open("log", "w")
 
 child = pexpect.spawn(
-    """qemu-system-riscv64 \
+    f"""qemu-system-riscv64 \
         -smp cpus=5,maxcpus=5 \
         -m 2G \
         -machine virt,acpi=off \
         -device virtio-net-pci,netdev=n0,mac="FE:0B:6E:23:3D:9A" \
         -netdev user,id=n0,net=10.0.2.0/24,hostfwd=tcp::2225-:22 \
-        -drive if=pflash,format=raw,unit=0,file=./RISCV_VIRT_CODE.fd,readonly=on \
-        -drive file=./disk.raw -snapshot -nographic"""
+        -drive if=pflash,format=raw,unit=0,file={firmware},readonly=on \
+        -drive file={image} -snapshot -nographic"""
 )
 
 child.logfile = f.buffer
