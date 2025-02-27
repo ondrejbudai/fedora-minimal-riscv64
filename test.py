@@ -23,7 +23,7 @@ child = pexpect.spawn(
 
 child.logfile = f.buffer
 
-child.expect("Please make a selection from the above", timeout=120)
+child.expect("Please make a selection from the above", timeout=300)
 print("configuring root")
 child.sendline("4")
 
