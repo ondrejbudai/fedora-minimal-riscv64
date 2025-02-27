@@ -14,5 +14,5 @@ qemu-system-riscv64 \
         -device virtio-net-pci,netdev=n0,mac="FE:0B:6E:23:3D:9A" \
         -netdev user,id=n0,net=10.0.2.0/24,hostfwd=tcp::2225-:22 \
         -drive if=pflash,format=raw,unit=0,file=/usr/share/edk2/riscv/RISCV_VIRT_CODE.fd,readonly=on \
-        -drive file=./disk.raw
+        -drive file=./disk.raw,id=hd0 -device virtio-blk-device,drive=hd0
 ```
