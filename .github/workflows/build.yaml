@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   build-image:
     runs-on: ubuntu-latest
@@ -33,6 +36,19 @@ jobs:
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
+        id: upload-artifact
         with:
-          name: os-image
+          name: fedora-41-minimal.raw.zst
           path: output/fedora-41-minimal-raw-zst-riscv64/zstd/disk.raw.zst
+
+      - name: Update README
+        run: |
+          sed -i "s|\[Download the latest image (.*)\](.*)|[Download the latest image ($(date +'%Y-%m-%d'))](${{ steps.upload-artifact.outputs.artifact-url }})|" README.md
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add README.md
+          git commit -m "Update download link in README"
+          git push origin main
