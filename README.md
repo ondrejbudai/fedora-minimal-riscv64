@@ -2,7 +2,7 @@
 
 This repository builds and hosts experimental riscv64 images of Fedora Minimal.
 
-[Download the latest Fedora 41 image (2025-02-27)](https://github.com/ondrejbudai/fedora-minimal-riscv64/actions/runs/13562656131/artifacts/2661950639)
+[Download the latest Fedora 41 image [(2025-02-27)](https://github.com/ondrejbudai/fedora-minimal-riscv64/actions/runs/13571936762/artifacts/2665174655)
 
 This build was smoke-tested using QEMU. To launch it on Fedora, unzip it, and run:
 
