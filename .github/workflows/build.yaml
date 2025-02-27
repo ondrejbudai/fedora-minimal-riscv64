@@ -42,7 +42,7 @@ jobs:
       - name: Run tests
         run: |
           unzstd output/fedora-41-minimal-raw-zst-riscv64/zstd/disk.raw.zst
-          python3 test.py output/fedora-41-minimal-raw-zst-riscv64/disk.raw /usr/share/qemu-efi-riscv64/RISCV_VIRT_CODE.fd
+          python3 test.py output/fedora-41-minimal-raw-zst-riscv64/zstd/disk.raw /usr/share/qemu-efi-riscv64/RISCV_VIRT_CODE.fd
 
       - name: Archive the log on failure
         if: failure()
