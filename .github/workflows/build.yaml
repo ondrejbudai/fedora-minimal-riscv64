@@ -60,7 +60,7 @@ jobs:
 
       - name: Update README
         run: |
-          sed -i "s|\[Download the latest image (.*)\](.*)|[Download the latest image ($(date +'%Y-%m-%d'))](${{ steps.upload-artifact.outputs.artifact-url }})|" README.md
+          sed -i "s|[(].*[]][(].*[)]|[($(date +'%Y-%m-%d'))](${{ steps.upload-artifact.outputs.artifact-url }})|" README.md
 
       - name: Commit and Push Changes
         run: |
