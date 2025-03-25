@@ -28,7 +28,7 @@ jobs:
         run: |
           sudo podman run --privileged --rm \
           -v "${{ github.workspace }}/output:/output" \
-          ghcr.io/ondrejbudai/image-builder-cli:fedora-minimal-riscv \
+          ghcr.io/osbuild/image-builder-cli:latest \
           --distro fedora-41 \
           --arch riscv64 \
           build minimal-raw-zst
